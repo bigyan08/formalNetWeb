@@ -5,13 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout 
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
-    return HttpResponse("This is index.")
-
-def contact(request):
-    return HttpResponse("This is contact.")
+    return render(request,'formalnet/index.html')
 
 def register_page(request):
     if request.method == 'POST':
@@ -21,7 +19,10 @@ def register_page(request):
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
             return render(request, 'formalnet/register_done.html', {'new_user': new_user})
+        else:
+            messages.error(request,'User registration invalid!')
     else:
+        
         form = UserRegistrationForm()
     return render(request, 'formalnet/register.html', {'form': form})
 
@@ -42,3 +43,10 @@ def login_view(request):
 def logoutUser(request):
     logout(request)
     return redirect('index')
+
+
+@login_required
+def profile_view(request,pk):
+    user = User.objects.get(id=pk)
+    context={'user':user}
+    return render(request,'formalnet/profile.html',context)

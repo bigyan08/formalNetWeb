@@ -4,11 +4,12 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',views.index,name='index'),
-    path('contact/',views.contact,name='contact'),
 
     path('register/',views.register_page,name='register'),
     path('login/',views.login_view,name='login'),
     path('logout/',views.logoutUser,name='logout'),
+
+    path('profile/<str:pk>/',views.profile_view,name='user-profile'),
 
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
