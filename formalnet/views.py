@@ -1,15 +1,31 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout 
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-
+import requests
 # Create your views here.
 def index(request):
-    return render(request,'formalnet/index.html')
+    output = None
+
+    if request.method == "POST":
+        input_text = request.POST.get("input_text", "")
+        if input_text:
+            try:
+                response = requests.post(
+                    "http://localhost:8000/convert/",
+                    json={"text": input_text}
+                )
+                if response.status_code == 200:
+                    output = response.json().get("output")
+                else:
+                    output = f"Error: {response.status_code}"
+            except requests.exceptions.RequestException as e:
+                output = f"Connection error: {e}"
+
+    return render(request, "formalnet/index.html", {"output": output})
 
 def register_page(request):
     if request.method == 'POST':

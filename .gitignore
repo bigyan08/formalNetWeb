@@ -1,3 +1,6 @@
 .venv/
 .env
 static/
+
+
+model_api/model_t5

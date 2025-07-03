@@ -1,6 +1,55 @@
 {% extends 'main.html'%}
-
 {% block content %}
-This is index page.
+<div class="flex flex-col items-center justify-center min-h-[85vh] bg-white py-8">
+  <div class="w-full max-w-3xl bg-gray-50 rounded-lg shadow p-8">
+    <h2 class="text-4xl font-semibold mb-6 text-center">Informal to Formal Text Converter</h2>
+    <form id="convert-form">
+      <div class="mb-4">
+        <label for="informal" class="block text-gray-700 font-medium mb-2">Informal Text</label>
+        <textarea id="informal" name="informal" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" placeholder="Enter informal text here..."></textarea>
+      </div>
+      <div class="mb-4">
+        <label for="formal" class="block text-gray-700 font-medium mb-2">Formal Text</label>
+        <textarea id="formal" name="formal" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded bg-gray-100 focus:outline-none resize-none" placeholder="Formal text will appear here..." readonly></textarea>
+      </div>
+      <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition">Convert</button>
+    </form>
+    <p id="status" class="text-center text-sm text-gray-500 mt-4"></p>
+  </div>
+</div>
 
+<script>
+  document.getElementById("convert-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const informal = document.getElementById("informal").value;
+    const formalBox = document.getElementById("formal");
+    const status = document.getElementById("status");
+
+    formalBox.value = ""; // Clear previous output
+    status.textContent = "Converting...";
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/convert/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: informal }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        formalBox.value = data.output;
+        status.textContent = "Conversion complete.";
+      } else {
+        formalBox.value = "";
+        status.textContent = `Error ${response.status}: ${response.statusText}`;
+      }
+    } catch (error) {
+      formalBox.value = "";
+      status.textContent = `Error: ${error.message}`;
+    }
+  });
+</script>
 {% endblock %}
