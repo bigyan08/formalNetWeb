@@ -2,6 +2,29 @@
 
 {% block content%}
 
-<h1> This is profile page.</h1>
+<div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">
+    <div class="md:flex">
+        <div class="md:shrink-0 flex items-center justify-center p-6">
+            <img class="h-24 w-24 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile picture">
+        </div>
+        <div class="p-8">
+            <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{user.username}}</div>
+            <p class="block mt-1 text-lg leading-tight font-medium text-black">Software Engineer</p>
+            <p class="mt-2 text-gray-500">Email: {{user.email}}</p>
+            <!-- <button class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Edit Profile</button> -->
+        </div>
+    </div>
+    <div class="p-8 border-t mt-4">
+        <h2 class="text-lg font-semibold mb-2">Previous Prompts</h2>
+        <ul class="list-disc pl-5 space-y-2">
+            {% for prompt in user.prompts %}
+                <li class="text-gray-700">{{ prompt.input_text}}</li>
+                <li class="text-gray-700">{{ prompt.output_text}}</li>
+            {% empty %}
+                <li class="text-gray-400">No previous prompts found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 
 {% endblock %}

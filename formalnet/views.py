@@ -5,7 +5,10 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+import json
 import requests
+from .models import Prompts
 # Create your views here.
 def index(request):
     output = None
@@ -25,7 +28,7 @@ def index(request):
             except requests.exceptions.RequestException as e:
                 output = f"Connection error: {e}"
 
-    return render(request, "formalnet/index.html", {"output": output})
+    return render(request, "formalnet/index.html", {"output": output,"user_id":request.user.id if request.user.is_authenticated else None})
 
 def register_page(request):
     if request.method == 'POST':
@@ -60,9 +63,37 @@ def logoutUser(request):
     logout(request)
     return redirect('index')
 
+@login_required
+def save_prompt(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            informal = data.get("input")
+            formal = data.get("output")
+
+            if not informal or not formal:
+                return JsonResponse({"error": "Missing data."}, status=400)
+
+            Prompts.objects.create(
+                author=request.user,
+                input_text=informal,
+                output_text=formal
+            )
+
+            return JsonResponse({"message": "Prompt saved."}, status=201)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid method"}, status=405)
+
 
 @login_required
 def profile_view(request,pk):
     user = User.objects.get(id=pk)
-    context={'user':user}
+    # Assuming you have a Prompt model with a ForeignKey to User
+    prompts = Prompts.objects.filter(author=user).order_by('-created_at')
+    print("Prompts for user:", prompts)
+    context = {'user': user, 'prompts':prompts}
     return render(request,'formalnet/profile.html',context)
+

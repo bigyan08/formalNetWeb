@@ -19,6 +19,8 @@
 </div>
 
 <script>
+  const USER_ID = {{ user_id|default:"null" }};
+
   document.getElementById("convert-form").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -35,7 +37,7 @@
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: informal }),
+        body: JSON.stringify({ text: informal, user_id:USER_ID }),
       });
 
       if (response.ok) {
