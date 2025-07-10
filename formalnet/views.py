@@ -92,8 +92,8 @@ def save_prompt(request):
 def profile_view(request,pk):
     user = User.objects.get(id=pk)
     # Assuming you have a Prompt model with a ForeignKey to User
-    prompts = Prompts.objects.filter(author=user).order_by('-created_at')
-    print("Prompts for user:", prompts)
+    prompts = Prompts.objects.filter(author=request.user).order_by('-created_at')
+    paginate = 5
     context = {'user': user, 'prompts':prompts}
     return render(request,'formalnet/profile.html',context)
 

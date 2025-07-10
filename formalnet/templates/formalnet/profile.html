@@ -17,12 +17,21 @@
     <div class="p-8 border-t mt-4">
         <h2 class="text-lg font-semibold mb-2">Previous Prompts</h2>
         <ul class="list-disc pl-5 space-y-2">
-            {% for prompt in user.prompts %}
-                <li class="text-gray-700">{{ prompt.input_text}}</li>
-                <li class="text-gray-700">{{ prompt.output_text}}</li>
-            {% empty %}
-                <li class="text-gray-400">No previous prompts found.</li>
-            {% endfor %}
+        {% for prompt in prompts %}
+        <div class="bg-gray-50 rounded-lg p-4 shadow">
+            <div class="mb-2">
+                <span class="font-semibold text-gray-700">Input:</span>
+                <span class="text-gray-800">{{ prompt.input_text }}</span>
+            </div>
+            <div>
+                <span class="font-semibold text-gray-700">Output:</span>
+                <span class="text-blue-700">{{ prompt.output_text }}</span>
+            </div>
+            <div class="text-xl text-gray-400 mt-1">{{ prompt.created_at|date:"M d, Y H:i" }}</div>
+        </div>
+        {% empty %}
+        <p class="text-gray-500">No prompts yet.</p>
+        {% endfor %}
         </ul>
     </div>
 </div>
