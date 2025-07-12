@@ -9,6 +9,7 @@ from django.http import JsonResponse
 import json
 import requests
 from .models import Prompts
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 def index(request):
@@ -98,6 +99,13 @@ def profile_view(request,pk):
     context = {'user': user, 'prompts':prompts}
     return render(request,'formalnet/profile.html',context)
 
+@login_required
+def delete_prompt(request,prompt_id):
+    prompt = get_object_or_404(Prompts,id=prompt_id,author=request.user)
+    if request.method == 'POST':
+        prompt.delete()
+        return redirect('user-profile',request.user.id)
 
+    return redirect('user-profile',request.user.id)
   
 

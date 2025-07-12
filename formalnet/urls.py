@@ -11,6 +11,8 @@ urlpatterns = [
 
     path('profile/<str:pk>/',views.profile_view,name='user-profile'),
 
+    path('prompt/delete/<int:prompt_id>/',views.delete_prompt,name='delete-prompt'),
+
     path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
