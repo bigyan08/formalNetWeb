@@ -9,7 +9,6 @@
         </div>
         <div class="p-8">
             <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{user.username}}</div>
-            <p class="block mt-1 text-lg leading-tight font-medium text-black">Software Engineer</p>
             <p class="mt-2 text-gray-500">Email: {{user.email}}</p>
             <!-- <button class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Edit Profile</button> -->
         </div>
@@ -27,13 +26,45 @@
                 <span class="font-semibold text-gray-700">Output:</span>
                 <span class="text-blue-700">{{ prompt.output_text }}</span>
             </div>
-            <div class="text-xl text-gray-400 mt-1">{{ prompt.created_at|date:"M d, Y H:i" }}</div>
-        </div>
+            <div class="text-xl text-gray-400 mt-1">{{ prompt.created_at|date:"M d, Y H:i" }}</div> 
+      <a href="{% url 'index' %}?informal={{ prompt.input_text|urlencode }}" 
+        class="mt-2 text-sm text-blue-600 hover:underline">
+        Edit
+      </a>
+       </div>
         {% empty %}
         <p class="text-gray-500">No prompts yet.</p>
         {% endfor %}
         </ul>
     </div>
 </div>
+<script>
+  // Define globally
+  window.editPrompt = function(text) {
+    console.log("editPrompt called with:", text); // For debugging
 
+    const informalInput = document.getElementById("informal");
+    if (informalInput) {
+      informalInput.value = text;
+    } else {
+      console.warn("No element with ID 'informal' found.");
+    }
+
+    const form = document.getElementById("convert-form");
+    if (form) {
+      form.scrollIntoView({ behavior: "smooth" });
+    }
+
+    const formalInput = document.getElementById("formal");
+    if (formalInput) {
+      formalInput.value = "";
+    }
+
+    const status = document.getElementById("status");
+    if (status) {
+      status.textContent = "Editing previous input...";
+    }
+  };
+
+  </script>
 {% endblock %}

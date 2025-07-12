@@ -6,7 +6,8 @@
     <form id="convert-form">
       <div class="mb-4">
         <label for="informal" class="block text-gray-700 font-medium mb-2">Informal Text</label>
-        <textarea id="informal" name="informal" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" placeholder="Enter informal text here..."></textarea>
+
+        <textarea id="informal" name="informal" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" placeholder="Enter informal text here...">{{ informal_text }}</textarea>
       </div>
       <div class="mb-4">
         <label for="formal" class="block text-gray-700 font-medium mb-2">Formal Text</label>
@@ -19,7 +20,8 @@
 </div>
 
 <script>
-  const USER_ID = {{ user_id|default:"null" }};
+  const USER_ID = "{{ user_id|default_if_none:'' }}";
+
 
   document.getElementById("convert-form").addEventListener("submit", async function (e) {
     e.preventDefault();

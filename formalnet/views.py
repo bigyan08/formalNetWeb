@@ -10,8 +10,10 @@ import json
 import requests
 from .models import Prompts
 # Create your views here.
+
 def index(request):
     output = None
+    informal_text = request.GET.get("informal","")
 
     if request.method == "POST":
         input_text = request.POST.get("input_text", "")
@@ -19,7 +21,7 @@ def index(request):
             try:
                 response = requests.post(
                     "http://localhost:8000/convert/",
-                    json={"text": input_text}
+                    json={"text": input_text,"user-id":request.user.id if request.user.is_authenticated else None}
                 )
                 if response.status_code == 200:
                     output = response.json().get("output")
@@ -28,7 +30,7 @@ def index(request):
             except requests.exceptions.RequestException as e:
                 output = f"Connection error: {e}"
 
-    return render(request, "formalnet/index.html", {"output": output,"user_id":request.user.id if request.user.is_authenticated else None})
+    return render(request, "formalnet/index.html", {"output": output,"user_id":request.user.id if request.user.is_authenticated else None,"informal_text":informal_text})
 
 def register_page(request):
     if request.method == 'POST':
@@ -91,9 +93,11 @@ def save_prompt(request):
 @login_required
 def profile_view(request,pk):
     user = User.objects.get(id=pk)
-    # Assuming you have a Prompt model with a ForeignKey to User
     prompts = Prompts.objects.filter(author=request.user).order_by('-created_at')
     paginate = 5
     context = {'user': user, 'prompts':prompts}
     return render(request,'formalnet/profile.html',context)
+
+
+  
 
