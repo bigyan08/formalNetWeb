@@ -1,11 +1,11 @@
 {% extends 'main.html'%}
-
+{% load static%}
 {% block content%}
 
 <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">
     <div class="md:flex">
         <div class="md:shrink-0 flex items-center justify-center p-6">
-            <img class="h-24 w-24 rounded-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile picture">
+            <img class="h-24 w-24 rounded-full object-cover" src="{% static 'images/avatar.svg' %}" alt="Profile picture">
         </div>
         <div class="p-8">
             <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{user.username}}</div>
