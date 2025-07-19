@@ -1,0 +1,45 @@
+\section{Functional Requirements}
+The following are the primary functional requirements of the FormalNet system:
+
+\begin{enumerate}[label=FR\arabic*.]
+  \item The system shall allow users to input an informal English sentence.
+  \item The system shall send the input sentence to the backend API for formalization.
+  \item The system shall return and display the formalized output to the user.
+  \item The system shall allow registered users to log in and log out securely.
+  \item The system shall store input-output history for logged-in users.
+  \item The system shall allow users to edit and re-submit previously entered prompts.
+  \item The system shall provide an admin panel for managing users and prompts.
+\end{enumerate}
+
+
+\section{Non-Functional Requirements}
+
+These are constraints on how the system performs:
+
+\begin{enumerate}[label=NFR\arabic*.]
+  \item The system shall respond to input within 3 seconds under normal load.
+  \item The backend shall be able to handle at least 10 concurrent users.
+  \item The system shall be compatible with modern web browsers (Chrome, Firefox, Edge).
+  \item The system shall maintain user data securely using hashed passwords.
+  \item The model inference shall run on GPU if available, otherwise fallback to CPU.
+  \item The application shall be deployed using a containerized architecture (e.g., Docker).
+\end{enumerate}
+
+
+\section{External Interface Requirements}
+
+\subsection{User Interface}
+\begin{itemize}
+  \item The main page shall include a form to input informal text and display the formal output.
+  \item The profile page shall show prompt history with options to edit or delete.
+  \item The login/register pages shall include standard form fields with validation.
+\end{itemize}
+
+\subsection{API Interface}
+\begin{itemize}
+  \item The Django app shall send a POST request to the FastAPI backend at \texttt{/predict} with JSON input.
+  \item The backend shall respond with JSON containing the formalized text.
+  \item API must return HTTP status codes for error handling (e.g., 200 OK, 400 Bad Request).
+\end{itemize}
+
+

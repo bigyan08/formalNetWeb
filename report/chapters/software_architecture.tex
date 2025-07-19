@@ -1,0 +1,46 @@
+\section{Model Architecture}
+FormalNet uses a T5 (Text-to-Text Transfer Transformer) model as its core engine for converting informal sentences into formal ones. T5 treats every NLP task as a text generation problem, making it suitable for style transfer tasks.
+
+The model follows the typical encoder-decoder architecture:
+\begin{itemize}
+  \item \textbf{Encoder:} Encodes the informal input sentence into a latent representation using self-attention.
+  \item \textbf{Decoder:} Generates the formal version of the sentence, attending to the encoded input at each step.
+\end{itemize}
+
+We used the \texttt{t5-base} variant, which consists of:
+\begin{itemize}
+  \item 12 Transformer layers each for encoder and decoder
+  \item 768-dimensional hidden layers
+  \item 12 attention heads
+  \item ~220 million parameters
+\end{itemize}
+
+The model was fine-tuned on a NUS Social Media Corpus\cite{NUS_Dataset} using supervised learning with teacher forcing.
+
+\section{System Architecture}
+FormalNet is implemented as a two-part modular system:
+\begin{enumerate}
+  \item A \textbf{Django web application} that connects the frontend interface (using tailwind css), handles user authentication, and manages prompt history.
+  \item A \textbf{FastAPI model backend} that loads the T5 model and serves predictions via a RESTful API.
+\end{enumerate}
+
+The system workflow is as follows:
+\begin{enumerate}
+  \item User enters an informal sentence in the web form.
+  \item The Django server sends the input to the FastAPI backend via an HTTP POST request.
+  \item The FastAPI service runs inference using the finetuned T5 model and returns the formalized text.
+  \item The frontend displays the output and stores the input-output pair in the database (if the user is logged in).
+\end{enumerate}
+
+
+\section{Training Pipeline}
+The T5 model was fine-tuned on a custom dataset containing informal and formal sentence pairs. The training pipeline included:
+
+\begin{itemize}
+  \item \textbf{Data preprocessing:} Text normalization, tokenization using T5 tokenizer, and input formatting.
+  \item \textbf{Model loading:} Initialized from \texttt{t5-base} pretrained weights.
+  \item \textbf{Training loop:} Used teacher forcing, AdamW optimizer, and early stopping to prevent overfitting.
+  \item \textbf{Evaluation:} Model was evaluated using BLEU score and manual quality inspection.
+\end{itemize}
+
+Training was performed using PyTorch on a P100 GPU provided by Kaggle.

@@ -1,0 +1,57 @@
+\section{Background Theory}
+
+\subsection{Natural Language Processing}
+Natural Language Processing (NLP) is a subfield of artificial intelligence that focuses on the interaction between computers and human (natural) languages. Key tasks in NLP include tokenization, part-of-speech tagging, named entity recognition, machine translation, and text classification.
+
+\subsection{Text Style Transfer}
+Text style transfer is an NLP task that involves transforming text from one style or tone to another while preserving its original content. In the context of FormalNet, the goal is to convert informal or conversational text into a more formal version suitable for academic or professional communication. 
+
+\subsection{Transformer Architecture}
+The Transformer architecture, introduced by Vaswani et al. (2017) \cite{vaswani2017attention}, revolutionized NLP by eliminating recurrence and instead relying entirely on self-attention mechanisms to model relationships between words in a sequence. Transformers have become the foundation of many modern language models due to their scalability and performance on large-scale datasets.
+
+\subsection{T5 Model}
+The Text-to-Text Transfer Transformer (T5)\cite{t5-raffel2020exploring} is a unified framework that treats every NLP problem as a text generation task. For example, instead of building separate models for translation, summarization, or classification, T5 reformulates all of them as feeding in text and generating target text. 
+
+\subsection{Fine-Tuning Pretrained Models}
+Instead of training a model from scratch, Fine-Tuning involves taking a pretrained model (like T5-base) and training it further on a task-specific dataset. For FormalNet, the model was fine-tuned on a parallel corpus of informal and formal sentence pairs. This approach leverages learned linguistic patterns while specializing the model on domain-specific tasks.
+
+\subsection{Sequence-to-Sequence Learning}
+Sequence-to-sequence (Seq2Seq) learning is a framework for converting one sequence (e.g., informal sentence) into another (e.g., formal sentence). It typically involves an encoder to represent the input and a decoder to generate the output. The Transformer is a type of Seq2Seq model without recurrence, making it faster and more efficient than traditional RNN-based models.
+
+\subsection{Dataset}
+NUS Social Media Text Normalization and Translation Corpus \cite{NUS_Dataset} can be used for this case study. The corpus is created for social media text normalization and translation. It is built by randomly selecting 2,000 messages from the NUS English SMS corpus. The messages were first normalized into formal English and then translated into formal Chinese which we can ignore.
+
+
+\section{Purpose}
+
+The purpose of this project is to develop a system capable of transforming informal English text into a more formal and polished version, particularly suited for academic or professional settings. 
+\section{Scope}
+
+FormalNet is designed as a web-based application that takes informal English text as input and returns a formalized version as output. The system incorporates a deep learning model based on the transformer architecture (T5) for text style transfer. The application also includes user authentication, prompt history tracking, and a clean user interface built with Django. 
+
+\section{Overview}
+
+The development of FormalNet followed an iterative and incremental development cycle, blending elements of both traditional software engineering practices and modern machine learning workflows.
+
+\begin{itemize}
+    
+    \item \begin{description}
+        \item[Requirements Analysis] The initiative commenced with the collection of requirements centered on the challenge of converting informal text to formal text.
+    \end{description}
+    \item \begin{description}
+        \item[Data Collection and Preprocessing] Created and cleaned a dataset of informal–formal sentence pairs, ensuring it was properly formatted for training a transformer model.
+    \end{description}
+    \item \begin{description}
+        \item[Model Training] Fine-tuned a T5-based transformer on the prepared dataset using supervised learning, optimizing for accuracy and generalization.
+    \end{description}
+    \item \begin{description}
+        \item[Web Application Development] Built the Django frontend for user interaction and a FastAPI backend to host the model, maintaining a modular and scalable design.
+    \end{description}
+    \item \begin{description}
+        \item[Integration and API Communication] Integrated the frontend and backend, enabling real-time requests from the web app to the ML model and returning formatted output.
+    \end{description}
+    \item \begin{description}
+        \item[Testing and Feedback] Conducted unit tests, model evaluations, and user trials to ensure correctness, usability, and linguistic quality of the system.
+    \end{description}
+\end{itemize}
+

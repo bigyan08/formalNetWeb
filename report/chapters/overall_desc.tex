@@ -1,0 +1,65 @@
+\section{Product Perspective}
+
+FormalNet is a standalone web-based system designed to provide intelligent text formalization through natural language processing (NLP). It operates as an end-to-end platform consisting of two decoupled services:
+\begin{itemize}
+    \item A Django-based web interface for user interaction, input handling, and history management
+    \item A FastAPI-based model backend that serves a fine-tuned T5 transformer model
+\end{itemize}
+
+The system is independent but modular, making it adaptable for integration with other writing tools or educational platforms in the future.\
+
+
+\section{Product Functions}
+
+The core functionality of FormalNet is to accept informal English text and return a grammatically improved, more formal version. Major functions include:
+
+\begin{itemize}
+    \item Accepting user input (informal text) through a web form.
+    \item Processing and sending the input to a backend model API.
+    \item Receiving and displaying the formalized output.
+    \item Supporting user authentication and account management.
+    \item Storing and displaying each user's text history with editing feature.
+\end{itemize}
+Each function is built to prioritize usability, speed, and linguistic accuracy.
+
+
+\section{User Characteristics}
+The target users of FormalNet are:
+\begin{itemize}
+    \item Students looking to improve the formal quality of their assignments, emails, or research documents.
+    \item Academic professionals drafting formal communication.
+    \item General users seeking polished, professional wording.
+\end{itemize}
+Users are expected to have basic computer and internet literacy. No prior knowledge of NLP or machine learning is required to use the system.
+
+
+\section{Constraints}
+\begin{itemize}
+    \item The web application depends on a stable internet connection for communication between frontend and backend
+    \item Response time should ideally remain under 3 seconds per conversion
+    \item Security measures must be implemented to protect user data, especially in the prompt history feature
+\end{itemize}
+
+
+\section{Assumptions and Dependencies}
+\begin{itemize}
+    \item The backend API and model service must be deployed and active for the Django app to function correctly
+    \item The system assumes availability of a modern browser (Chrome, Firefox, etc.) for full compatibility
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
