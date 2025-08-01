@@ -58,3 +58,36 @@ The primary use cases shown in the diagram include:
     \item \textbf{Edit or Delete Prompt}: Enables users to manage their past prompts for corrections or updates.
 \end{itemize}
 This diagram helps in understanding the user interaction flow and serves as a blueprint for system behavior from the user's perspective.
+
+\section{Model Architecture}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{images/transformer_architecture.png}
+  \caption{Transformer Architecture}
+  \label{fig:transformer}
+\end{figure}
+FormalNet uses a T5 (Text-to-Text Transfer Transformer) model as its core engine for converting informal sentences into formal ones. T5 treats every NLP task as a text generation problem, making it suitable for style transfer tasks.
+
+The model follows the typical encoder-decoder architecture:
+\begin{itemize}
+  \item \textbf{Encoder:} Encodes the informal input sentence into a latent representation using self-attention.
+  \item \textbf{Decoder:} Generates the formal version of the sentence, attending to the encoded input at each step.
+\end{itemize}
+
+We used the \texttt{t5-base} variant, which consists of:
+\begin{itemize}
+  \item 12 Transformer layers each for encoder and decoder
+  \item 768-dimensional hidden layers
+  \item 12 attention heads
+  \item ~220 million parameters
+\end{itemize}
+
+The T5 model was fine-tuned on a NUS Social Media Corpus\cite{NUS_Dataset} containing informal and formal sentence pairs. The training pipeline included:
+
+\begin{itemize}
+  \item \textbf{Data preprocessing:} Text normalization, tokenization using T5 tokenizer, and input formatting.
+  \item \textbf{Model loading:} Initialized from \texttt{t5-base} pretrained weights.
+  \item \textbf{Training loop:} Used AdamW optimizer, and early stopping to prevent overfitting.
+  \item \textbf{Evaluation:} Model was evaluated using BLEU score and manual quality inspection.
+\end{itemize}
+Training was performed using PyTorch on a P100 GPU provided by Kaggle.

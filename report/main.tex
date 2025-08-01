@@ -16,6 +16,7 @@
 \usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage{float}
+\usepackage{url} 
 \graphicspath{ {./images/} }
 
 \renewcommand*\contentsname{Table of Contents}
@@ -101,12 +102,20 @@
 \addtocounter{page}{-1}
 \newpage
 
+\chapter*{Abbreviations}%
+\addcontentsline{toc}{chapter}{Abbreviations}%
+\label{abbreviations}%
+\input{sections/abbreviations}
+\newpage
+
 
 \pagenumbering{arabic}
 \chapter{Introduction}%
 \label{introduction}%
 \input{chapters/intro}
 \newpage
+
+
 
 \chapter{Overall Description}%
 \label{description}%
@@ -118,20 +127,16 @@
 \input{chapters/specific_req}
 \newpage
 
-\chapter{Software Architecture}%
-\label{architecture}
-\input{chapters/software_architecture}
+% \chapter{System Architecture}%
+% \label{architecture}
+% \input{chapters/system_architecture}
 
 \chapter{Diagrams}%
 \label{diagrams}
 \input{chapters/diagrams}
 \newpage
 
-\chapter*{Abbreviations}%
-\addcontentsline{toc}{chapter}{Abbreviations}%
-\label{abbreviations}%
-\input{sections/abbreviations}
 
-\bibliographystyle{plain}
+\bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}
